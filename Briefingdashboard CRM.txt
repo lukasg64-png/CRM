@@ -1,0 +1,232 @@
+Sim — abaixo está um briefing 360º, já estruturado para orientar a criação de um dashboard de CRM realmente centrado no cliente, com foco em quem compra mais, perfil, qualidade da base, cidade, retenção, recorrência, valor e acionabilidade. Um bom dashboard de CRM precisa partir de dados confiáveis, segmentação clara e métricas acionáveis, com filtros, drill-down e visão integrada entre perfil, comportamento e valor do cliente. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+## Objetivo do dashboard
+
+Criar um dashboard de CRM focado em cliente para responder, com rapidez, quem são os melhores clientes, quais perfis geram mais valor, onde estão, como compram, qual a qualidade da base e onde existem oportunidades de retenção, reativação, cross-sell e expansão de receita. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+O dashboard deve apoiar decisões de marketing, comercial, CRM, fidelidade e operação, priorizando dados relevantes, atualização confiável, visualização intuitiva, interatividade e segmentação por múltiplas dimensões. [explo](https://www.explo.co/blog/crm-dashboards-key-elements-best-practices)
+
+## Perguntas de negócio
+
+O briefing deve começar pelas perguntas que o dashboard precisa responder, porque isso define KPIs, cortes e prioridades analíticas. Dashboards de CRM mais úteis evitam excesso de informação e priorizam indicadores ligados ao objetivo do negócio. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Perguntas obrigatórias:
+- Quem compra mais em valor total, frequência e ticket médio? [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Qual perfil de cliente tem maior CLV, maior recorrência e menor risco de churn? [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+- Quais cidades, regiões, lojas ou canais concentram os melhores clientes? [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Quem são os clientes novos, leais, em risco, hibernando ou perdidos? [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Quais coortes retêm melhor ao longo do tempo? [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Quais campanhas, canais ou jornadas geram clientes de maior qualidade? [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Onde há problemas de qualidade cadastral, base inativa, duplicidade ou ausência de identificação? [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Quais segmentos devem receber ação imediata de retenção, reativação ou aumento de frequência? [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+
+## Escopo analítico
+
+O dashboard deve cobrir a jornada completa do cliente, da aquisição ao valor gerado, incluindo comportamento transacional, perfil, localização, engajamento e risco. A integração com outros dados de negócio melhora a visão 360 e evita análises isoladas. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+
+Blocos de análise recomendados:
+- Base de clientes: tamanho, crescimento, ativos, inativos, identificados, opt-in, qualidade cadastral. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Valor do cliente: faturamento, margem se disponível, ticket médio, frequência, CLV/LTV, participação no faturamento. [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+- Segmentação: RFM, perfil demográfico, cidade, canal, loja, categoria comprada, campanha de origem. [braze](https://www.braze.com/resources/articles/rfm-segmentation)
+- Retenção: recompra, intervalo entre compras, churn, reativação, análise de coorte. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Engajamento: abertura, clique, conversão, uso de benefícios, adesão ao loyalty, resposta a campanhas. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Ações: público prioritário, listas acionáveis, oportunidades de upsell e cross-sell. [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+
+## Público usuário
+
+É importante definir quem vai consumir o dashboard, porque isso muda a profundidade e o nível de detalhe. Dashboards de CRM mais eficientes costumam combinar uma camada executiva com navegação analítica para operação. [explo](https://www.explo.co/blog/crm-dashboards-key-elements-best-practices)
+
+Perfis de usuário:
+- Diretoria/gerência: visão executiva, KPIs, tendências, alertas e ranking. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Time de CRM/marketing: segmentação, campanhas, engajamento, retenção e oportunidades. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Comercial/operação: cidade, loja, canal, mix, perfil de compra e clientes prioritários. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Analistas: drill-down, filtros, exportação, coortes, RFM, cluster e inspeção da qualidade dos dados. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## KPIs principais
+
+Os indicadores devem ser poucos na camada principal e complementados por detalhes abaixo. Métricas clássicas de CRM incluem turnover/churn, NPS quando houver, CLV e segmentação por comportamento e perfil. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+KPIs de topo:
+- Clientes ativos no período. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Novos clientes. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Taxa de recompra. [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+- Frequência média de compra. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Ticket médio. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Receita por cliente. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- CLV/LTV médio e por segmento. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Churn rate / risco de churn. [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+- Clientes reativados. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Percentual do faturamento vindo do top 10%, 20% e 30% de clientes. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Participação de clientes identificados nas vendas. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Qualidade da base: % com CPF/ID válido, telefone, e-mail, cidade, consentimento, sem duplicidade. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Dimensões de análise
+
+Para responder “quem compra mais, qual perfil, qual cidade”, o dashboard precisa permitir cortes consistentes por atributos de cliente e comportamento. A segmentação por características compartilhadas é uma prática central em CRM analytics. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Dimensões obrigatórias:
+- Período: dia, semana, mês, trimestre, ano. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Cliente: ID, nome mascarado, faixa de valor, faixa de frequência, tempo de base. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Perfil: sexo, idade/faixa etária, geração, estado civil se houver, renda/faixa socioeconômica se houver. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Geografia: cidade, UF, região, loja de referência, raio de influência. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Canal: loja física, e-commerce, app, WhatsApp, televendas, marketplace. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Origem: campanha, mídia, canal de aquisição, primeira compra, fonte do cadastro. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Comportamento: categoria comprada, missão de compra, frequência, ticket, recência, uso de promoção. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Fidelidade: membro de programa, uso de pontos, cashback, cupons, clube. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+
+## Segmentações essenciais
+
+A base do dashboard deve ter segmentações prontas, não apenas filtros soltos. RFM é uma das estruturas mais recomendadas porque organiza a base por recência, frequência e valor monetário, ajudando a distinguir de onde vem a receita e quais clientes são o núcleo da audiência. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+Segmentações recomendadas:
+- RFM completo: champions, loyal, potential loyalist, new customers, promising, need attention, about to sleep, at risk, hibernating, lost. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Faixa de CLV: altíssimo, alto, médio, baixo. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Curva ABC de clientes por receita e margem. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Perfil demográfico: idade, sexo, estágio de vida. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Geográfico: cidade, região, loja. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Canal e jornada: origem do cliente e canal dominante de compra. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Sensibilidade promocional: compra com desconto vs compra cheia. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Monocategoria vs multicategoria. [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+- Recorrentes vs ocasionais vs one-timers. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+
+## Estrutura das páginas
+
+Uma boa arquitetura reduz ruído e melhora a leitura. O ideal é separar o dashboard em abas ou páginas com uma visão executiva e blocos analíticos específicos. [explo](https://www.explo.co/blog/crm-dashboards-key-elements-best-practices)
+
+### 1. Visão executiva
+Resumo com KPIs, tendência, alertas e principais cortes do período. Deve mostrar ativos, novos, recompra, receita CRM, CLV, churn, top cidades e principais movimentos da base. [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+
+### 2. Valor do cliente
+Foco em quem compra mais, ranking, concentração de receita, ticket, frequência, CLV e curva ABC. Deve responder quais clientes e segmentos sustentam o faturamento e onde está o maior valor econômico. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+### 3. Perfil do cliente
+Distribuição por faixa etária, sexo, estágio de vida, canal preferido, categorias, aderência promocional e perfil de compra. A segmentação por histórico, demografia e comportamento torna a comunicação mais precisa. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+### 4. Geografia
+Mapa e ranking por cidade, região, loja e penetração da base. Deve mostrar onde estão os melhores clientes, maior frequência, maior ticket, maior retenção e maior risco de perda. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+### 5. Retenção e coorte
+Cohorts por mês de aquisição, recompra, tempo até segunda compra, retenção por janela e evolução do churn. Cohort analysis ajuda a identificar grupos com maior CLV e maior risco de evasão ao longo do tempo. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+
+### 6. RFM e risco
+Distribuição de clientes por recency, frequency e monetary, com transição entre segmentos e lista de clientes em risco. O acompanhamento de mudanças de segmento é útil para retenção e reativação. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+### 7. Campanhas e acionamento
+Desempenho por campanha, canal, público, oferta e resultado em receita, conversão, reativação e uplift. O valor aumenta quando predições e segmentos são conectados a workflows acionáveis. [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+
+### 8. Qualidade da base
+Cobertura de CPF/ID, telefone, e-mail, cidade, sexo, data de nascimento, consentimento, duplicidade e cadastro inativo. Sem qualidade de dado, a análise perde confiabilidade. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Visuais recomendados
+
+As visualizações devem ser simples, consistentes e exploráveis, com filtros e drill-down. Técnicas intuitivas e recursos de interação melhoram muito a utilidade do dashboard. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Sugestão de visuais:
+- Cards de KPI com variação vs período anterior. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Linha temporal para ativos, novos, receita, churn e recompra. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Barras horizontais para ranking de cidades, segmentos e canais. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Heatmap de coorte para retenção mensal. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Matriz RFM ou dispersão frequência x monetário com cor por recência. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Mapa por cidade/UF com receita, clientes e ticket. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Pareto para concentração de receita por clientes. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Funnel de jornada de cadastro > identificação > compra > recompra > fidelização. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Tabela analítica com drill-down para lista de clientes/segmentos acionáveis. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Filtros obrigatórios
+
+Filtros bem definidos aumentam a capacidade de análise e evitam retrabalho. A recomendação é permitir segmentação por dados demográficos, produto, região e histórico. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Filtros principais:
+- Período. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Cidade, UF, região, loja. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Canal de venda. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Canal de aquisição/origem. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Sexo, faixa etária. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Faixa de CLV. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Segmento RFM. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Novo vs recorrente vs reativado. [sparkco](https://sparkco.ai/blog/retail-excel-cohort-analysis-clv-churn-signals)
+- Categoria/departamento. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Cliente fidelidade vs não fidelidade. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Com ou sem promoção. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Regras de negócio
+
+Esta é a parte mais crítica do briefing, porque define exatamente como cada número será calculado. Sem isso, o dashboard vira fonte de conflito entre áreas. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Definir no briefing:
+- O que é cliente ativo, inativo, churnado, reativado e novo. [sarasanalytics](https://www.sarasanalytics.com/blog/customer-retention-dashboard)
+- Janela de churn por categoria ou negócio, por exemplo 60, 90, 120 ou 180 dias sem compra. [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+- Fórmula de CLV/LTV e se será histórico, preditivo ou simplificado. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Regra de receita líquida vs bruta, inclusão de cancelamentos e devoluções. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Como será definida cidade do cliente, cadastro, entrega, loja preferida ou cidade da compra. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Regra de identificação única do cliente, CPF, e-mail, telefone, ID master. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Critério de segmentação RFM, percentis, score 1–5 e frequência de atualização. O modelo dinâmico de RFM pode ser atualizado mensalmente ou em janelas mais curtas conforme necessidade. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+- Definição de cliente de qualidade: alto CLV, boa margem, recorrência, baixa sensibilidade promocional, adimplência, opt-in e baixo risco de churn. [digitalapplied](https://www.digitalapplied.com/blog/ai-predictive-analytics-clv-churn-guide)
+
+## Fontes de dados
+
+Um dashboard de CRM centrado no cliente deve consolidar várias fontes para construir visão única. A recomendação é unir CRM a dados operacionais, financeiros e de interação. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+
+Fontes ideais:
+- ERP/PDV/e-commerce para transações. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- CRM/CDP para cadastro, segmentação e histórico. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Plataforma de campanhas para envio, abertura, clique e conversão. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Programa de fidelidade para pontos, benefícios e resgates. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- Atendimento/NPS/satisfação, se houver. [sentisum](https://www.sentisum.com/library/customer-experience-dashboard)
+- BI financeiro para margem, rentabilidade e metas. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Dados externos para enriquecimento geográfico ou socioeconômico, se permitido. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Qualidade de dados
+
+O briefing precisa reservar uma frente específica para governança. Data quality é apontada como base para conclusões confiáveis e deve incluir limpeza, padronização, atualização e monitoramento de falhas. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+Checklist de qualidade:
+- Deduplicação de clientes. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Padronização de cidade, UF e bairro. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Normalização de telefone e e-mail. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Tratamento de nulos e inconsistências. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Identificação de vendas sem cliente identificado. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Controle de consentimento LGPD. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Atualização periódica e auditoria de fontes. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Dicionário de dados e dono por campo/KPI. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+
+## Entregáveis esperados
+
+O briefing deve formalizar o que será entregue no projeto para evitar desalinhamento. [blog.runrun](https://blog.runrun.it/modelo-de-briefing/)
+
+Entregáveis recomendados:
+- Mapa de objetivos e perguntas de negócio. [blog.runrun](https://blog.runrun.it/modelo-de-briefing/)
+- Lista de KPIs com fórmula e regra de negócio. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Arquitetura das páginas/abas do dashboard. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Protótipo wireframe de cada aba. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Matriz de fontes e campos necessários. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Plano de atualização e SLA do dado. [explo](https://www.explo.co/blog/crm-dashboards-key-elements-best-practices)
+- Perfis de acesso e governança. [youtube](https://www.youtube.com/shorts/ZyvxqHdqW4s)
+- Backlog de evolução, por exemplo churn preditivo, propensão de compra, recomendação de ofertas e clusters avançados. [johnnygrow](https://johnnygrow.com/bi/crm-dashboard-best-practices/)
+
+## Modelo pronto de briefing
+
+Você pode usar este roteiro diretamente no projeto:
+
+| Bloco | O que preencher |
+|---|---|
+| Objetivo | Ex.: aumentar retenção, entender melhores clientes, melhorar campanhas CRM |
+| Perguntas-chave | Quem compra mais, qual perfil compra melhor, quais cidades concentram valor, onde há churn |
+| Usuários | Diretoria, CRM, marketing, comercial, BI |
+| KPIs | Ativos, novos, recompra, CLV, churn, ticket, frequência, receita por cliente |
+| Segmentações | RFM, CLV, demografia, cidade, canal, categoria, campanha |
+| Fontes | ERP, CRM, e-commerce, loyalty, campanhas, atendimento |
+| Regras | Cliente ativo, churn, receita líquida, deduplicação, CLV, cidade |
+| Filtros | Período, cidade, loja, canal, sexo, faixa etária, segmento RFM |
+| Páginas | Executiva, valor, perfil, geografia, retenção, RFM, campanhas, qualidade |
+| Atualização | Diário, intradiário ou near real time, conforme disponibilidade  [explo](https://www.explo.co/blog/crm-dashboards-key-elements-best-practices) |
+| Saídas | Dashboard, listas acionáveis, alertas, exportações, visão executiva |
+
+## Recomendação prática
+
+Para esse dashboard funcionar bem, eu estruturaria o projeto em 3 camadas: executiva, analítica e acionável. A camada executiva mostra o desempenho geral; a analítica explica quem são os clientes e por que performam; a acionável entrega segmentos como champions, at risk, hibernating e lost para campanhas e retenção. [mindminers](https://mindminers.com/blog/modelo-de-briefing/)
+
+Se quiser, eu posso transformar esse briefing em um formato mais operacional, por exemplo:
+1. briefing executivo de 1 página para alinhar com diretoria;
+2. briefing técnico para BI/Data;
+3. wireframe completo das abas do dashboard em Power BI.

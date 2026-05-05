@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.env
+
+# Streamlit
+.streamlit/
+
+# Logs
+*.log
+
+# Git
+.git/
+
+# Ignorar arquivos temporários, mas MANTER a pasta dados (pois o usuário quer salvar o histórico lá)
+!dados/
+!dados/*.csv
