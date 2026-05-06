@@ -349,25 +349,40 @@ elif camada == "2. Analise de Clientes":
         st.markdown("<h2 style='font-size:20px;'>Perfil Demografico dos Clientes</h2>", unsafe_allow_html=True)
         st.caption("Distribuicao de genero e faixa etaria da base de clientes ativos no periodo.")
         if not df_demo.empty:
-            # Filtro de data para demografico
-            df_demo_f = df_demo[(df_demo['MES_ATIVIDADE'] >= start_date_ts) & (df_demo['MES_ATIVIDADE'] <= end_date_ts)].copy()
-            df_demo_valid = df_demo_f[(df_demo_f['IDADE'] >= 18) & (df_demo_f['IDADE'] <= 100)]
-            
-            if not df_demo_valid.empty:
+            # Tratamento de erro caso a coluna nova ainda nao tenha sido baixada pelo extrator
+            if 'MES_ATIVIDADE' in df_demo.columns:
+                # Filtro de data para demografico
+                df_demo_f = df_demo[(df_demo['MES_ATIVIDADE'] >= start_date_ts) & (df_demo['MES_ATIVIDADE'] <= end_date_ts)].copy()
+                df_demo_valid = df_demo_f[(df_demo_f['IDADE'] >= 18) & (df_demo_f['IDADE'] <= 100)]
+                
+                if not df_demo_valid.empty:
+                    cP1, cP2 = st.columns(2)
+                    with cP1:
+                        df_sex_agg = df_demo_valid.groupby('SEXO')['COUNT'].sum().reset_index()
+                        fig_sex = px.pie(df_sex_agg, names='SEXO', values='COUNT', hole=0.6, color_discrete_sequence=['#22c55e', '#16a34a', '#64748b'])
+                        fig_sex.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
+                        st.plotly_chart(fig_sex, use_container_width=True)
+
+                    with cP2:
+                        df_age_agg = df_demo_valid.groupby('IDADE')['COUNT'].sum().reset_index()
+                        fig_age = px.bar(df_age_agg, x='IDADE', y='COUNT', color_discrete_sequence=['#22c55e'])
+                        fig_age.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
+                        st.plotly_chart(fig_age, use_container_width=True)
+                else:
+                    st.info("Sem dados demograficos para o periodo selecionado.")
+            else:
+                st.warning("⚠️ Estrutura de dados antiga detectada. Rode o arquivo '01_Sincronizar_Total.bat' para habilitar os filtros demograficos.")
+                # Mostra o snapshot antigo como fallback
+                df_demo_valid = df_demo[(df_demo['IDADE'] >= 18) & (df_demo['IDADE'] <= 100)]
                 cP1, cP2 = st.columns(2)
                 with cP1:
                     df_sex_agg = df_demo_valid.groupby('SEXO')['COUNT'].sum().reset_index()
                     fig_sex = px.pie(df_sex_agg, names='SEXO', values='COUNT', hole=0.6, color_discrete_sequence=['#22c55e', '#16a34a', '#64748b'])
-                    fig_sex.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
                     st.plotly_chart(fig_sex, use_container_width=True)
-
                 with cP2:
                     df_age_agg = df_demo_valid.groupby('IDADE')['COUNT'].sum().reset_index()
                     fig_age = px.bar(df_age_agg, x='IDADE', y='COUNT', color_discrete_sequence=['#22c55e'])
-                    fig_age.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
                     st.plotly_chart(fig_age, use_container_width=True)
-            else:
-                st.info("Sem dados demograficos para o periodo selecionado.")
 
     with tab4:
         st.markdown("<h2 style='font-size:20px;'>Matriz de Retencao (Cohort)</h2>", unsafe_allow_html=True)
