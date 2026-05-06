@@ -120,12 +120,12 @@ def load_data():
 
     df_cohort = dfs.get("df_cohort", pd.DataFrame())
     if not df_cohort.empty:
-        df_cohort['MES_COHORT'] = pd.to_datetime(df_cohort['MES_COHORT'])
-        df_cohort['MES_ATIVIDADE'] = pd.to_datetime(df_cohort['MES_ATIVIDADE'])
+        if 'MES_COHORT' in df_cohort.columns: df_cohort['MES_COHORT'] = pd.to_datetime(df_cohort['MES_COHORT'])
+        if 'MES_ATIVIDADE' in df_cohort.columns: df_cohort['MES_ATIVIDADE'] = pd.to_datetime(df_cohort['MES_ATIVIDADE'])
 
     df_demo = dfs.get("df_demo", pd.DataFrame())
     if not df_demo.empty:
-        df_demo['MES_ATIVIDADE'] = pd.to_datetime(df_demo['MES_ATIVIDADE'])
+        if 'MES_ATIVIDADE' in df_demo.columns: df_demo['MES_ATIVIDADE'] = pd.to_datetime(df_demo['MES_ATIVIDADE'])
 
     df_vip = dfs.get("df_vip", pd.DataFrame())
     if not df_vip.empty: df_vip['ULTIMA_COMPRA'] = pd.to_datetime(df_vip['ULTIMA_COMPRA'])
