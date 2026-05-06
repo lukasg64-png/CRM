@@ -28,122 +28,76 @@ CANAL_CORES = {
 st.set_page_config(page_title="Farmácias São João | CRM Analytics", page_icon="💊", layout="wide", initial_sidebar_state="expanded")
 
 # ==========================================
-# DESIGN SYSTEM: FARMACIAS SAO JOAO CRM
+# DESIGN SYSTEM & CACHE
 # ==========================================
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+def apply_custom_style():
+    st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .stApp { background-color: #0f1117; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        div[data-testid="stSidebar"] { background: linear-gradient(180deg, #0f2017 0%, #0f1117 100%) !important; border-right: 1px solid #1a3a28; }
+        .metric-card { background: #1a2332; border: 1px solid #1e3a28; border-left: 3px solid #22c55e; border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+        .metric-title { font-size: 12px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+        .metric-value { font-size: 30px; font-weight: 700; color: #ffffff; margin: 8px 0; }
+        .metric-delta.positive { color: #22c55e; font-size: 13px; font-weight: 600; }
+        .metric-delta.negative { color: #ef4444; font-size: 13px; font-weight: 600; }
+        h1, h2, h3 { color: #ffffff !important; font-weight: 700 !important; }
+        div[data-testid="stButton"] > button { background-color: #16a34a !important; color: #ffffff !important; border-radius: 8px !important; font-weight: 600 !important; border: none !important; width: 100%; }
+        div[data-testid="stButton"] > button:hover { background-color: #15803d !important; }
+        button[data-baseweb="tab"][aria-selected="true"] div[data-testid="stMarkdownContainer"] p { color: #22c55e !important; font-weight: 600 !important; }
+        div[data-baseweb="tab-highlight"] { background-color: #22c55e !important; }
+    </style>
+    """, unsafe_allow_html=True)
 
-    /* Canvas principal */
-    .stApp {
-        background-color: #0f1117;
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    /* Sidebar */
-    div[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0f2017 0%, #0f1117 100%) !important;
-        border-right: 1px solid #1a3a28;
-    }
-    div[data-testid="stSidebar"] section { background: transparent !important; }
-
-    /* Cards de métricas */
-    .metric-card {
-        background: #1a2332;
-        border: 1px solid #1e3a28;
-        border-left: 3px solid #22c55e;
-        border-radius: 10px;
-        padding: 20px 24px;
-        text-align: left;
-        margin-bottom: 16px;
-    }
-    .metric-title {
-        font-size: 12px; color: #94a3b8; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 0.8px;
-    }
-    .metric-value {
-        font-size: 30px; font-weight: 700; color: #ffffff;
-        font-family: 'Inter', sans-serif; margin: 8px 0;
-    }
-    .metric-delta.positive { color: #22c55e; font-size: 13px; font-weight: 600; }
-    .metric-delta.negative { color: #ef4444; font-size: 13px; font-weight: 600; }
-    .metric-footer { font-size: 11px; color: #64748b; margin-top: 6px; }
-
-    /* Títulos */
-    h1, h2, h3 { color: #ffffff !important; font-weight: 700 !important; }
-    h1 { font-size: 32px !important; margin-bottom: 4px !important; }
-    h2 { font-size: 20px !important; color: #e2e8f0 !important; }
-
-    /* Botões FSJ verde */
-    div[data-testid="stButton"] > button {
-        background-color: #16a34a !important;
-        color: #ffffff !important;
-        border-radius: 8px !important;
-        padding: 10px 22px !important;
-        font-weight: 600 !important;
-        border: none !important;
-    }
-    div[data-testid="stButton"] > button:hover { background-color: #15803d !important; }
-    div[data-testid="stButton"] > button p { color: #ffffff !important; }
-
-    /* Abas */
-    button[data-baseweb="tab"] { background-color: transparent !important; border: none !important; }
-    button[data-baseweb="tab"] div[data-testid="stMarkdownContainer"] p {
-        font-size: 14px !important; color: #64748b !important;
-    }
-    button[data-baseweb="tab"][aria-selected="true"] div[data-testid="stMarkdownContainer"] p {
-        color: #22c55e !important; font-weight: 600 !important;
-    }
-    div[data-baseweb="tab-highlight"] { background-color: #22c55e !important; height: 2px !important; }
-
-    /* Tabela */
-    div[data-testid="stDataFrame"] { border: 1px solid #1e3a28 !important; border-radius: 8px !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# ==========================================
-# CARREGAMENTO DE DADOS (LOCAL CSV)
-# ==========================================
 @st.cache_data(ttl=43200)
-def load_data():
+def load_all_datasets():
     arquivos = ["df_v", "df_omni", "df_canal_ltv", "df_cohort", "df_demo", "df_vip",
                 "df_novos_cac", "df_ltv_canal", "df_ltv_canal_mes", "df_novos_por_canal"]
     dfs = {}
     for arquivo in arquivos:
         caminho = f"dados/{arquivo}.csv"
         if os.path.exists(caminho):
-            dfs[arquivo] = pd.read_csv(caminho)
+            try: dfs[arquivo] = pd.read_csv(caminho)
+            except: dfs[arquivo] = pd.DataFrame()
+        else: dfs[arquivo] = pd.DataFrame()
+    return dfs
 
-    df_v = dfs.get("df_v", pd.DataFrame())
-    if not df_v.empty: df_v['DATA_VENDA'] = pd.to_datetime(df_v['DATA_VENDA'])
+# ==========================================
+# CARGA E TRATAMENTO DE DADOS
+# ==========================================
+apply_custom_style()
+dfs = load_all_datasets()
 
-    df_cohort = dfs.get("df_cohort", pd.DataFrame())
-    if not df_cohort.empty:
-        if 'MES_COHORT' in df_cohort.columns: df_cohort['MES_COHORT'] = pd.to_datetime(df_cohort['MES_COHORT'])
-        if 'MES_ATIVIDADE' in df_cohort.columns: df_cohort['MES_ATIVIDADE'] = pd.to_datetime(df_cohort['MES_ATIVIDADE'])
+df_v = dfs.get("df_v", pd.DataFrame()).copy()
+if not df_v.empty: df_v['DATA_VENDA'] = pd.to_datetime(df_v['DATA_VENDA'])
 
-    df_demo = dfs.get("df_demo", pd.DataFrame())
-    if not df_demo.empty:
-        if 'MES_ATIVIDADE' in df_demo.columns: df_demo['MES_ATIVIDADE'] = pd.to_datetime(df_demo['MES_ATIVIDADE'])
+df_cohort = dfs.get("df_cohort", pd.DataFrame()).copy()
+if not df_cohort.empty:
+    if 'MES_COHORT' in df_cohort.columns: df_cohort['MES_COHORT'] = pd.to_datetime(df_cohort['MES_COHORT'])
+    if 'MES_ATIVIDADE' in df_cohort.columns: df_cohort['MES_ATIVIDADE'] = pd.to_datetime(df_cohort['MES_ATIVIDADE'])
 
-    df_vip = dfs.get("df_vip", pd.DataFrame())
-    if not df_vip.empty: df_vip['ULTIMA_COMPRA'] = pd.to_datetime(df_vip['ULTIMA_COMPRA'])
+df_demo = dfs.get("df_demo", pd.DataFrame()).copy()
+if not df_demo.empty:
+    if 'MES_ATIVIDADE' in df_demo.columns: df_demo['MES_ATIVIDADE'] = pd.to_datetime(df_demo['MES_ATIVIDADE'])
 
-    # --- novos datasets de aquisicao ---
-    df_novos_cac = dfs.get("df_novos_cac", pd.DataFrame())
-    if not df_novos_cac.empty:
-        df_novos_cac['MES_REFERENCIA'] = pd.to_datetime(df_novos_cac['MES_REFERENCIA'])
+df_omni = dfs.get("df_omni", pd.DataFrame()).copy()
+if not df_omni.empty:
+    if 'MES_ATIVIDADE' in df_omni.columns: df_omni['MES_ATIVIDADE'] = pd.to_datetime(df_omni['MES_ATIVIDADE'])
 
-    df_ltv_canal = dfs.get("df_ltv_canal", pd.DataFrame())
+df_vip = dfs.get("df_vip", pd.DataFrame()).copy()
+if not df_vip.empty: df_vip['ULTIMA_COMPRA'] = pd.to_datetime(df_vip['ULTIMA_COMPRA'])
 
-    df_ltv_canal_mes = dfs.get("df_ltv_canal_mes", pd.DataFrame())
-    if not df_ltv_canal_mes.empty:
-        df_ltv_canal_mes['MES_REFERENCIA'] = pd.to_datetime(df_ltv_canal_mes['MES_REFERENCIA'])
+df_novos_cac = dfs.get("df_novos_cac", pd.DataFrame()).copy()
+if not df_novos_cac.empty:
+    if 'MES_REFERENCIA' in df_novos_cac.columns: df_novos_cac['MES_REFERENCIA'] = pd.to_datetime(df_novos_cac['MES_REFERENCIA'])
 
-    df_novos_por_canal = dfs.get("df_novos_por_canal", pd.DataFrame())
-    if not df_novos_por_canal.empty:
-        df_novos_por_canal['MES_REFERENCIA'] = pd.to_datetime(df_novos_por_canal['MES_REFERENCIA'])
+df_ltv_canal_mes = dfs.get("df_ltv_canal_mes", pd.DataFrame()).copy()
+if not df_ltv_canal_mes.empty:
+    if 'MES_REFERENCIA' in df_ltv_canal_mes.columns: df_ltv_canal_mes['MES_REFERENCIA'] = pd.to_datetime(df_ltv_canal_mes['MES_REFERENCIA'])
+
+df_novos_por_canal = dfs.get("df_novos_por_canal", pd.DataFrame()).copy()
+if not df_novos_por_canal.empty:
+    if 'MES_REFERENCIA' in df_novos_por_canal.columns: df_novos_por_canal['MES_REFERENCIA'] = pd.to_datetime(df_novos_por_canal['MES_REFERENCIA'])
 
     # --- budget de marketing (linha 5 da planilha: Total Realizado Midia) ---
     df_budget = pd.DataFrame()
@@ -242,29 +196,66 @@ if camada == "1. Visao Executiva":
     st.markdown("<h1>Visao Executiva</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>Performance geral do periodo <b>{start_date.strftime('%d/%m/%Y')} a {end_date.strftime('%d/%m/%Y')}</b> comparado ao mesmo periodo de {start_date_ly.year}.</p>", unsafe_allow_html=True)
     
-    r_at = df_atual['RECEITA_TOTAL'].sum()
-    r_ant = df_anterior['RECEITA_TOTAL'].sum()
-    c_at = df_atual['QTD_CLIENTES'].sum()
-    c_ant = df_anterior['QTD_CLIENTES'].sum()
+    # --- Cálculo de Deltas (Ano Anterior) ---
+    receita_atual = df_atual['RECEITA_TOTAL'].sum()
+    receita_anterior = df_anterior['RECEITA_TOTAL'].sum()
+    delta_receita = ((receita_atual / receita_anterior) - 1) * 100 if receita_anterior > 0 else 0
+
+    clientes_atual = df_atual['QTD_CLIENTES'].nunique()
+    clientes_anterior = df_anterior['QTD_CLIENTES'].nunique()
+    delta_clientes = ((clientes_atual / clientes_anterior) - 1) * 100 if clientes_anterior > 0 else 0
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown(f"""<div class='metric-card'>
+            <div class='metric-title'>Receita Total</div>
+            <div class='metric-value'>R$ {receita_atual:,.0f}</div>
+            <div class='metric-delta {"positive" if delta_receita >= 0 else "negative"}'>
+                {'▲' if delta_receita >= 0 else '▼'} {abs(delta_receita):.1f}% vs. ano ant.
+            </div>
+        </div>""", unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"""<div class='metric-card'>
+            <div class='metric-title'>Clientes Ativos</div>
+            <div class='metric-value'>{clientes_atual:,.0f}</div>
+            <div class='metric-delta {"positive" if delta_clientes >= 0 else "negative"}'>
+                {'▲' if delta_clientes >= 0 else '▼'} {abs(delta_clientes):.1f}% vs. ano ant.
+            </div>
+        </div>""", unsafe_allow_html=True)
+
     p_at = df_atual['QTD_VENDAS'].sum()
     p_ant = df_anterior['QTD_VENDAS'].sum()
     
-    tm_at = r_at / p_at if p_at > 0 else 0
-    tm_ant = r_ant / p_ant if p_ant > 0 else 0
-    freq_at = p_at / c_at if c_at > 0 else 0
-    freq_ant = p_ant / c_ant if c_ant > 0 else 0
+    ticket_medio_atual = receita_atual / p_at if p_at > 0 else 0
+    ticket_medio_anterior = receita_anterior / p_ant if p_ant > 0 else 0
+    delta_tm = ((ticket_medio_atual / ticket_medio_anterior) - 1) * 100 if ticket_medio_anterior > 0 else 0
 
-    # Indicador de ultima atualizacao
-    st.sidebar.caption(f"Ultima atualizacao: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    freq_atual = p_at / clientes_atual if clientes_atual > 0 else 0
+    freq_anterior = p_ant / clientes_anterior if clientes_anterior > 0 else 0
+    delta_freq = ((freq_atual / freq_anterior) - 1) * 100 if freq_anterior > 0 else 0
 
-    col1, col2, col3, col4 = st.columns(4)
-    tooltip_yoy = f"vs {start_date_ly.strftime('%d/%m/%y')} a {end_date_ly.strftime('%d/%m/%y')}"
+    with col3:
+        st.markdown(f"""<div class='metric-card'>
+            <div class='metric-title'>Ticket Medio</div>
+            <div class='metric-value'>R$ {ticket_medio_atual:,.2f}</div>
+            <div class='metric-delta {"positive" if delta_tm >= 0 else "negative"}'>
+                {'▲' if delta_tm >= 0 else '▼'} {abs(delta_tm):.1f}% vs. ano ant.
+            </div>
+        </div>""", unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown(f"""<div class='metric-card'>
+            <div class='metric-title'>Frequencia</div>
+            <div class='metric-value'>{freq_atual:,.2f}x</div>
+            <div class='metric-delta {"positive" if delta_freq >= 0 else "negative"}'>
+                {'▲' if delta_freq >= 0 else '▼'} {abs(delta_freq):.1f}% vs. ano ant.
+            </div>
+        </div>""", unsafe_allow_html=True)
 
-    val_receita = f"R$ {r_at/1e6:.2f} M" if r_at >= 1000000 else f"R$ {r_at/1e3:.1f} K"
-    col1.markdown(render_card("Receita Total CRM", val_receita, calc_delta(r_at, r_ant), tooltip_yoy), unsafe_allow_html=True)
-    col2.markdown(render_card("Clientes Ativos", f"{c_at:,.0f}", calc_delta(c_at, c_ant), tooltip_yoy), unsafe_allow_html=True)
-    col3.markdown(render_card("Ticket Medio", f"R$ {tm_at:.2f}", calc_delta(tm_at, tm_ant), tooltip_yoy), unsafe_allow_html=True)
-    col4.markdown(render_card("Frequencia Media", f"{freq_at:.2f}x", calc_delta(freq_at, freq_ant), tooltip_yoy), unsafe_allow_html=True)
+    # Indicador de ultima atualizacao na sidebar
+    st.sidebar.markdown("---")
+    st.sidebar.caption(f"Dados sincronizados em: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<h2>Tendencia de Receita por Mes</h2>", unsafe_allow_html=True)
@@ -329,21 +320,32 @@ elif camada == "2. Analise de Clientes":
     with tab2:
         st.markdown("<h2 style='font-size:20px;'>Comportamento Omnichannel</h2>", unsafe_allow_html=True)
         st.caption("Participacao dos perfis de compra na receita total e LTV (Lifetime Value) historico.")
-        df_omni['LTV'] = df_omni['RECEITA_TOTAL'] / df_omni['QTD_CLIENTES']
-        df_canal_ltv['LTV'] = df_canal_ltv['RECEITA_TOTAL'] / df_canal_ltv['QTD_CLIENTES']
+        if not df_omni.empty:
+            # Filtro de data para Omni
+            if 'MES_ATIVIDADE' in df_omni.columns:
+                df_o_f = df_omni[(df_omni['MES_ATIVIDADE'] >= start_date_ts) & (df_omni['MES_ATIVIDADE'] <= end_date_ts)].copy()
+                # Re-agrupar para somar os meses selecionados
+                df_omni_plot = df_o_f.groupby('PERFIL_OMNI').agg({'QTD_CLIENTES':'sum', 'RECEITA_TOTAL':'sum', 'QTD_VENDAS':'sum'}).reset_index()
+            else:
+                st.warning("⚠️ Dados Omnichannel desatualizados. Rode '01_Sincronizar_Total.bat' para habilitar filtros.")
+                df_omni_plot = df_omni.groupby('PERFIL_OMNI').agg({'QTD_CLIENTES':'sum', 'RECEITA_TOTAL':'sum', 'QTD_VENDAS':'sum'}).reset_index()
 
-        cO1, cO2 = st.columns(2)
-        with cO1:
-            fig_o1 = px.pie(df_omni, values='RECEITA_TOTAL', names='PERFIL_OMNI', hole=0.6,
-                            color_discrete_sequence=['#22c55e', '#16a34a', '#64748b', '#1e293b'])
-            fig_o1.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
-            st.plotly_chart(fig_o1, use_container_width=True)
+            if not df_omni_plot.empty:
+                df_omni_plot['LTV'] = df_omni_plot['RECEITA_TOTAL'] / df_omni_plot['QTD_CLIENTES']
+                cO1, cO2 = st.columns(2)
+                with cO1:
+                    fig_o1 = px.pie(df_omni_plot, names='PERFIL_OMNI', values='RECEITA_TOTAL', hole=0.6,
+                                    color_discrete_sequence=['#22c55e', '#16a34a', '#64748b', '#1e293b'])
+                    fig_o1.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
+                    st.plotly_chart(fig_o1, use_container_width=True)
 
-        with cO2:
-            fig_o2 = px.bar(df_omni, x='PERFIL_OMNI', y='LTV', color='PERFIL_OMNI', text_auto='.2f',
-                            color_discrete_sequence=['#22c55e', '#16a34a', '#64748b', '#1e293b'])
-            fig_o2.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'), showlegend=False)
-            st.plotly_chart(fig_o2, use_container_width=True)
+                with cO2:
+                    fig_o2 = px.bar(df_omni_plot, x='PERFIL_OMNI', y='LTV', color='PERFIL_OMNI', text_auto='.2f',
+                                    color_discrete_sequence=['#22c55e', '#16a34a', '#64748b', '#1e293b'])
+                    fig_o2.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'), showlegend=False)
+                    st.plotly_chart(fig_o2, use_container_width=True)
+            else:
+                st.info("Sem dados Omnichannel para o periodo selecionado.")
 
     with tab3:
         st.markdown("<h2 style='font-size:20px;'>Perfil Demografico dos Clientes</h2>", unsafe_allow_html=True)
