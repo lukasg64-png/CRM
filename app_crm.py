@@ -123,6 +123,10 @@ def load_data():
         df_cohort['MES_COHORT'] = pd.to_datetime(df_cohort['MES_COHORT'])
         df_cohort['MES_ATIVIDADE'] = pd.to_datetime(df_cohort['MES_ATIVIDADE'])
 
+    df_demo = dfs.get("df_demo", pd.DataFrame())
+    if not df_demo.empty:
+        df_demo['MES_ATIVIDADE'] = pd.to_datetime(df_demo['MES_ATIVIDADE'])
+
     df_vip = dfs.get("df_vip", pd.DataFrame())
     if not df_vip.empty: df_vip['ULTIMA_COMPRA'] = pd.to_datetime(df_vip['ULTIMA_COMPRA'])
 
@@ -269,13 +273,22 @@ if camada == "1. Visao Executiva":
     st.markdown("<h2 style='font-size:20px;margin-bottom:0;'>Historico de Receita por Canal</h2>", unsafe_allow_html=True)
     st.caption(f"Evolucao diaria da receita bruta por canal de venda no periodo selecionado.")
 
-    fig_hist = px.line(df_atual.sort_values('DATA_VENDA'), x='DATA_VENDA', y='RECEITA_TOTAL', color='CANAL', 
-                       color_discrete_map=CANAL_CORES)
+    # Agrupando por dia e canal para garantir que o grafico de area funcione corretamente
+    df_daily = df_atual.groupby(['DATA_VENDA', 'CANAL'])['RECEITA_TOTAL'].sum().reset_index()
+    
+    fig_hist = px.area(df_daily.sort_values('DATA_VENDA'), 
+                       x='DATA_VENDA', y='RECEITA_TOTAL', color='CANAL', 
+                       color_discrete_map=CANAL_CORES,
+                       line_group='CANAL')
+    
     fig_hist.update_layout(
         plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#e2e8f0'),
-        xaxis_title='', yaxis_title='Receita (R$)', showlegend=True,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        xaxis=dict(title='', tickformat='%d/%m/%y', gridcolor='#1e293b'), 
+        yaxis=dict(title='Receita (R$)', gridcolor='#1e293b'),
+        showlegend=True,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        hovermode="x unified"
     )
     st.plotly_chart(fig_hist, use_container_width=True)
 
@@ -290,10 +303,11 @@ elif camada == "2. Analise de Clientes":
 
     with tab1:
         st.markdown("<h2 style='font-size:20px;'>Composicao da Base de Clientes</h2>", unsafe_allow_html=True)
-        st.caption("Visao da base de clientes ativos dividida entre Novos (primeira compra no mes) e Recorrentes.")
-        df_cohort_f = df_cohort[(df_cohort['MES_ATIVIDADE'] >= start_date_ts) & (df_cohort['MES_ATIVIDADE'] <= end_date_ts)].copy()
-        df_cohort_f['TIPO_CLIENTE'] = df_cohort_f['MESES_DESDE_COHORT'].apply(lambda x: 'Novo Cliente' if x == 0 else 'Recorrente')
-        composicao_mes = df_cohort_f.groupby(['MES_ATIVIDADE', 'TIPO_CLIENTE'])['QTD_CLIENTES_ATIVOS'].sum().reset_index()
+        st.caption("Visao da base de clientes ativos dividida entre Novos (primeira compra no mes) e Recorrentes (historico completo).")
+        # Conforme solicitado, este grafico ignora o filtro global e mostra TODO o historico
+        df_cohort_full = df_cohort.copy()
+        df_cohort_full['TIPO_CLIENTE'] = df_cohort_full['MESES_DESDE_COHORT'].apply(lambda x: 'Novo Cliente' if x == 0 else 'Recorrente')
+        composicao_mes = df_cohort_full.groupby(['MES_ATIVIDADE', 'TIPO_CLIENTE'])['QTD_CLIENTES_ATIVOS'].sum().reset_index()
 
         if not composicao_mes.empty:
             composicao_mes['PERIODO'] = composicao_mes['MES_ATIVIDADE'].dt.strftime('%b/%y')
@@ -335,19 +349,25 @@ elif camada == "2. Analise de Clientes":
         st.markdown("<h2 style='font-size:20px;'>Perfil Demografico dos Clientes</h2>", unsafe_allow_html=True)
         st.caption("Distribuicao de genero e faixa etaria da base de clientes ativos no periodo.")
         if not df_demo.empty:
-            df_demo_valid = df_demo[(df_demo['IDADE'] >= 18) & (df_demo['IDADE'] <= 100)]
-            cP1, cP2 = st.columns(2)
-            with cP1:
-                df_sex_agg = df_demo_valid.groupby('SEXO')['COUNT'].sum().reset_index()
-                fig_sex = px.pie(df_sex_agg, names='SEXO', values='COUNT', hole=0.6, color_discrete_sequence=['#22c55e', '#16a34a', '#64748b'])
-                fig_sex.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
-                st.plotly_chart(fig_sex, use_container_width=True)
+            # Filtro de data para demografico
+            df_demo_f = df_demo[(df_demo['MES_ATIVIDADE'] >= start_date_ts) & (df_demo['MES_ATIVIDADE'] <= end_date_ts)].copy()
+            df_demo_valid = df_demo_f[(df_demo_f['IDADE'] >= 18) & (df_demo_f['IDADE'] <= 100)]
+            
+            if not df_demo_valid.empty:
+                cP1, cP2 = st.columns(2)
+                with cP1:
+                    df_sex_agg = df_demo_valid.groupby('SEXO')['COUNT'].sum().reset_index()
+                    fig_sex = px.pie(df_sex_agg, names='SEXO', values='COUNT', hole=0.6, color_discrete_sequence=['#22c55e', '#16a34a', '#64748b'])
+                    fig_sex.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
+                    st.plotly_chart(fig_sex, use_container_width=True)
 
-            with cP2:
-                df_age_agg = df_demo_valid.groupby('IDADE')['COUNT'].sum().reset_index()
-                fig_age = px.bar(df_age_agg, x='IDADE', y='COUNT', color_discrete_sequence=['#22c55e'])
-                fig_age.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
-                st.plotly_chart(fig_age, use_container_width=True)
+                with cP2:
+                    df_age_agg = df_demo_valid.groupby('IDADE')['COUNT'].sum().reset_index()
+                    fig_age = px.bar(df_age_agg, x='IDADE', y='COUNT', color_discrete_sequence=['#22c55e'])
+                    fig_age.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'))
+                    st.plotly_chart(fig_age, use_container_width=True)
+            else:
+                st.info("Sem dados demograficos para o periodo selecionado.")
 
     with tab4:
         st.markdown("<h2 style='font-size:20px;'>Matriz de Retencao (Cohort)</h2>", unsafe_allow_html=True)
