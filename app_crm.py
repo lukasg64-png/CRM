@@ -236,7 +236,7 @@ df_anterior = df_v[(df_v['DATA_VENDA'] >= start_date_ly) & (df_v['DATA_VENDA'] <
 # ==========================================
 if camada == "1. Visao Executiva":
     st.markdown("<h1>Visao Executiva</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>Performance geral do periodo selecionado com comparativo ano a ano.</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>Performance geral do periodo <b>{start_date.strftime('%d/%m/%Y')} a {end_date.strftime('%d/%m/%Y')}</b> comparado ao mesmo periodo de {start_date_ly.year}.</p>", unsafe_allow_html=True)
     
     r_at = df_atual['RECEITA_TOTAL'].sum()
     r_ant = df_anterior['RECEITA_TOTAL'].sum()
@@ -266,11 +266,11 @@ if camada == "1. Visao Executiva":
     st.markdown("<h2>Tendencia de Receita por Mes</h2>", unsafe_allow_html=True)
 
     df_mensal = df_v.groupby(['ANO', 'MES'])['RECEITA_TOTAL'].sum().reset_index()
-    df_mensal['NOME_MES'] = df_mensal['MES'].map(PT_MONTHS)
-    df_mensal['ANO'] = df_mensal['ANO'].astype(str)
+    st.markdown("<h2 style='font-size:20px;margin-bottom:0;'>Historico de Receita por Canal</h2>", unsafe_allow_html=True)
+    st.caption(f"Evolucao diaria da receita bruta por canal de venda no periodo selecionado.")
 
-    fig_hist = px.bar(df_mensal, x='NOME_MES', y='RECEITA_TOTAL', color='ANO', barmode='group',
-                      color_discrete_map={'2026': '#22c55e', '2025': '#1e3a28'}, text_auto='.2s')
+    fig_hist = px.line(df_atual.sort_values('DATA_VENDA'), x='DATA_VENDA', y='RECEITA_TOTAL', color='CANAL', 
+                       color_discrete_map=CANAL_CORES)
     fig_hist.update_layout(
         plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#e2e8f0'),
@@ -285,16 +285,20 @@ if camada == "1. Visao Executiva":
 # ==========================================
 elif camada == "2. Analise de Clientes":
     st.markdown("<h1>Analise de Clientes</h1>", unsafe_allow_html=True)
-    tab1, tab2, tab3, tab4 = st.tabs(["Novos Clientes", "Comportamento Omni", "Perfil Demografico", "Retencao (Cohort)"])
+    st.markdown(f"<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>Perfil de comportamento, demografia e retencao dos clientes ativos entre <b>{start_date.strftime('%d/%m/%y')} e {end_date.strftime('%d/%m/%y')}</b>.</p>", unsafe_allow_html=True)
+    tab1, tab2, tab3, tab4 = st.tabs(["📊 Novos vs Recorrentes", "🔄 Mix Omnichannel", "👥 Demografico", "🧬 Cohort"])
 
     with tab1:
-        st.markdown("<h2>Composicao: Novos vs Recorrentes</h2>", unsafe_allow_html=True)
-        df_cohort['TIPO_CLIENTE'] = df_cohort['MESES_DESDE_COHORT'].apply(lambda x: 'Novo Cliente' if x == 0 else 'Recorrente')
-        composicao_mes = df_cohort.groupby(['MES_ATIVIDADE', 'TIPO_CLIENTE'])['QTD_CLIENTES_ATIVOS'].sum().reset_index()
+        st.markdown("<h2 style='font-size:20px;'>Composicao da Base de Clientes</h2>", unsafe_allow_html=True)
+        st.caption("Visao da base de clientes ativos dividida entre Novos (primeira compra no mes) e Recorrentes.")
+        df_cohort_f = df_cohort[(df_cohort['MES_ATIVIDADE'] >= start_date_ts) & (df_cohort['MES_ATIVIDADE'] <= end_date_ts)].copy()
+        df_cohort_f['TIPO_CLIENTE'] = df_cohort_f['MESES_DESDE_COHORT'].apply(lambda x: 'Novo Cliente' if x == 0 else 'Recorrente')
+        composicao_mes = df_cohort_f.groupby(['MES_ATIVIDADE', 'TIPO_CLIENTE'])['QTD_CLIENTES_ATIVOS'].sum().reset_index()
 
         if not composicao_mes.empty:
-            fig_comp = px.bar(composicao_mes, x='MES_ATIVIDADE', y='QTD_CLIENTES_ATIVOS', color='TIPO_CLIENTE',
-                              color_discrete_map={'Novo Cliente': '#22c55e', 'Recorrente': '#1e3a28'})
+            composicao_mes['PERIODO'] = composicao_mes['MES_ATIVIDADE'].dt.strftime('%b/%y')
+            fig_comp = px.bar(composicao_mes, x='PERIODO', y='QTD_CLIENTES_ATIVOS', color='TIPO_CLIENTE',
+                               color_discrete_map={'Novo Cliente': '#22c55e', 'Recorrente': '#1e3a28'})
             fig_comp.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#e2e8f0'), barmode='stack',
                                    xaxis_title='', yaxis_title='Clientes Ativos')
             st.plotly_chart(fig_comp, use_container_width=True)
@@ -309,7 +313,8 @@ elif camada == "2. Analise de Clientes":
             cC3.markdown(render_card("CAC Medio", f"R$ {cac:.2f}", 0, "Custo de Aquisicao"), unsafe_allow_html=True)
 
     with tab2:
-        st.markdown("<h2>Comportamento Omnichannel</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='font-size:20px;'>Comportamento Omnichannel</h2>", unsafe_allow_html=True)
+        st.caption("Participacao dos perfis de compra na receita total e LTV (Lifetime Value) historico.")
         df_omni['LTV'] = df_omni['RECEITA_TOTAL'] / df_omni['QTD_CLIENTES']
         df_canal_ltv['LTV'] = df_canal_ltv['RECEITA_TOTAL'] / df_canal_ltv['QTD_CLIENTES']
 
@@ -327,7 +332,8 @@ elif camada == "2. Analise de Clientes":
             st.plotly_chart(fig_o2, use_container_width=True)
 
     with tab3:
-        st.markdown("<h2>Perfil Demografico dos Clientes</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='font-size:20px;'>Perfil Demografico dos Clientes</h2>", unsafe_allow_html=True)
+        st.caption("Distribuicao de genero e faixa etaria da base de clientes ativos no periodo.")
         if not df_demo.empty:
             df_demo_valid = df_demo[(df_demo['IDADE'] >= 18) & (df_demo['IDADE'] <= 100)]
             cP1, cP2 = st.columns(2)
@@ -344,10 +350,12 @@ elif camada == "2. Analise de Clientes":
                 st.plotly_chart(fig_age, use_container_width=True)
 
     with tab4:
-        st.markdown("<h2>Matriz de Retencao (Cohort)</h2>", unsafe_allow_html=True)
-        if not df_cohort.empty:
-            c_sizes = df_cohort[df_cohort['MESES_DESDE_COHORT']==0].set_index('MES_COHORT')['QTD_CLIENTES_ATIVOS']
-            c_piv = df_cohort.pivot(index='MES_COHORT', columns='MESES_DESDE_COHORT', values='QTD_CLIENTES_ATIVOS')
+        st.markdown("<h2 style='font-size:20px;'>Matriz de Retencao (Cohort)</h2>", unsafe_allow_html=True)
+        st.caption("Percentual de clientes que voltam a comprar nos meses seguintes a sua primeira compra (Aquisicao).")
+        df_c_filter = df_cohort[(df_cohort['MES_COHORT'] >= start_date_ts) & (df_cohort['MES_COHORT'] <= end_date_ts)]
+        if not df_c_filter.empty:
+            c_sizes = df_c_filter[df_c_filter['MESES_DESDE_COHORT']==0].set_index('MES_COHORT')['QTD_CLIENTES_ATIVOS']
+            c_piv = df_c_filter.pivot(index='MES_COHORT', columns='MESES_DESDE_COHORT', values='QTD_CLIENTES_ATIVOS')
             r_mat = c_piv.divide(c_sizes, axis=0) * 100
             r_mat.index = r_mat.index.strftime('%Y-%m')
 
@@ -380,21 +388,10 @@ elif camada == "3. Exportar VIPs":
 # ==========================================
 elif camada == "4. Aquisicao & LTV":
     st.markdown("<h1>Aquisicao de Clientes & LTV</h1>", unsafe_allow_html=True)
-    st.markdown(
-        "<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>"
-        "Volume de clientes novos por mes, CAC calculado sobre novos clientes e LTV / Frequencia por canal."
-        "</p>",
-        unsafe_allow_html=True
-    )
+    st.markdown(f"<p style='color:#64748b;font-size:14px;margin-top:-12px;margin-bottom:24px;'>Analise do custo de aquisicao (CAC) e o valor gerado por cada canal entre <b>{start_date.strftime('%B/%Y')} e {end_date.strftime('%B/%Y')}</b>.</p>", unsafe_allow_html=True)
 
-    st.markdown("<h2>Investimento em Marketing (Total Realizado Midia)</h2>", unsafe_allow_html=True)
-    st.markdown(
-        "<p style='color:#64748b;font-size:13px;'>"
-        "Valores carregados da linha 5 da planilha. Preencha os meses em branco (futuros ou faltantes) "
-        "para calcular o CAC. As alteracoes sao usadas diretamente nos graficos abaixo."
-        "</p>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<h2 style='font-size:20px;margin-bottom:8px;'>Investimento em Marketing (Mídia)</h2>", unsafe_allow_html=True)
+    st.caption("Insira os valores investidos por mes para calcular o CAC real. Os valores sao salvos localmente.")
 
     # Monta tabela de edicao com TODOS os meses presentes em df_novos_cac
     if not df_novos_cac.empty:
@@ -438,7 +435,8 @@ elif camada == "4. Aquisicao & LTV":
     # =========================================
     # SECAO 1: CLIENTES NOVOS POR MES
     # =========================================
-    st.markdown("<h2>1. Volume de Clientes Novos por Mes</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='font-size:20px;'>Performance de Aquisicao e CAC</h2>", unsafe_allow_html=True)
+    st.caption("Comparativo entre a entrada de Novos Clientes e o custo por cliente adquirido (CAC).")
 
     if not df_novos_cac.empty:
         df_nc = df_novos_cac.copy()
@@ -624,7 +622,8 @@ elif camada == "4. Aquisicao & LTV":
     # =========================================
     # SECAO 3: EVOLUCAO MENSAL DO LTV POR CANAL
     # =========================================
-    st.markdown("<h2>3. Evolucao Mensal do LTV por Canal</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='font-size:20px;'>LTV e Frequencia por Canal de Entrada</h2>", unsafe_allow_html=True)
+    st.caption("Metricas de valor acumulado (LTV) e recompra dos clientes baseadas no canal da primeira compra.")
 
     if not df_ltv_canal_mes.empty:
         df_lm = df_ltv_canal_mes.copy()
